@@ -12,7 +12,7 @@ def add_task():
 
     task_name = input("Enter Task Name:")
     due_date = input("Enter Due Date:")
-    new_task = (task_name, due_date)
+    new_task = {'name': task_name, 'due_date': due_date}
     tasks.append(new_task)
     print("Task Added")
     return tasks
@@ -21,15 +21,45 @@ def remove_task():
     """
     The use can remove any task by searching for its name
     """
-    print("Input the name of the task you would like to remove")
-    task_name = input("Enter Task Name you want to remove:")
-    for i, (name,date) in enumerate(task):
-        del tasks[i]
-        print("Task Deleted")
-        break
-    else:
-        print("Task not found")
-    
-updated_task = add_task()
-print(updated_task)
+    task_to_remove = input("Input the name of the task to remove: ")
+    for task in tasks:
+        if task['name'] == task_to_remove:
+            tasks.remove(task)
+            print(f"Task {task_to_remove} has been removed.")
+            return
+    print(f"Task {task_to_remove} not found.")
+        
 
+def view_tasks():
+    print("To Do:")
+    for i, task in enumerate(tasks):
+        print(f"{i + 1}. {task['name']} - Due Date: {task['due_date']}")
+
+def main():
+    options = {
+    1: "Add Task",
+    2: "Remove Task",
+    3: "View Tasks",
+    4: "Sort Tasks",
+    5: "Load Tasks",
+    6: "Save Tasks",
+    7: "Exit To Do List"
+}
+
+    while True:
+        print("Please select an option:")
+        for key, value in options.items():
+            print(f"{key}: {value}")
+    
+        selection = int(input("Enter the number of your selection: "))
+    
+        if selection == 1:
+            add_task()
+        elif selection == 2:
+            remove_task()
+        elif selection == 3:
+            view_tasks()
+        else:
+            print("Invalid option selected, please try again.")
+
+main()
