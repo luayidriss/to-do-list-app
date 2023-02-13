@@ -1,86 +1,109 @@
+from datetime import datetime
+
 tasks = []
+
+def validate_date():
+    while True:
+        date = input("Enter Due Date:")
+        try:
+            datetime.strptime(date, '%d-%m-%Y')
+            return date
+        except ValueError:
+            print("Incorrect date format, should be dd-mm-yyyy")
 
 def add_task():
     """
     The user inputs the task they want to add and it will add it to the to do lisy
     """
     print("Please enter your task name and its due date")
-    print("The due date should follow this format MM-DD-YYYY")
+    print("The due date should follow this format DD-MM-YYYY")
     print("Example:")
     print("Task Name: Fold Laundry")
     print("Due Date: 02-11-2023")
     print("By default a new task will be marked as incomplete")
 
     task_name = input("Enter Task Name:")
-    due_date = input("Enter Due Date:")
+    due_date = validate_date()
     new_task = {'name': task_name, 'due_date': due_date, 'Completion Status': 'Incomplete'}
     tasks.append(new_task)
     print("Task Added")
+
+
+def find_task():
+    task_to_find = input("Enter the name of the task you want to find: ")
+    for task in tasks:
+        if task['name'] == task_to_find:
+            return task
+    return None
+    
 
 def remove_task():
     """
     The use can remove any task by searching for its name
     """
-    task_to_remove = input("Input the name of the task to remove: ")
-    found_task = False
-    for task in tasks:
-        if task['name'] == task_to_remove:
-            found_task = True
-            tasks.remove(task)
-            print(f"Task {task_to_remove} has been removed.")
-            return
-    if not found_task:
-            print(f"Task {task_to_complete} not found.")
+    task_to_remove = find_task()
+    if task_to_remove:
+        tasks.remove(task_to_remove)
+        print(f"Task {task_to_remove} has been removed.")
+    else:
+        print(f"Task {task_to_remove} not found.")
         
 def view_tasks():
     print("To Do:")
     for i, task in enumerate(tasks):
         print(f"{i + 1}. {task['name']} - Due Date: {task['due_date']} - Completion Status: {task['Completion Status']}")
 
-def update_task_completion():
+def update_task():
     """
     The user can update the completion status of any task by searching for its name
     """
     options = {
-    1: "Complete",
-    2: "In Progress",
-    3: "Incomplete",
+    1: "Edit Name",
+    2: "Edit Due Date",
+    3: "Mark as Complete",
+    4: "Mark as In Progress",
+    5: "Mark as Incomplete",
     }
 
-    task_to_complete = input("Input the name of the task to update: ")
-
-    while True:
+    task_to_update = find_task()
+    if task_to_update:
         for key, value in options.items():
             print(f"{key}: {value}")
-    
-        selection = int(input("Please select a completion status:"))
-        found_task = False
-        for task in tasks:
-            if task['name'] == task_to_complete:
-                found_task = True
-                if selection == 1:
-                    task['Completion Status'] = 'Complete'
-                    print(f"Task {task_to_complete} is now set as complete.")
-                    return
-                if selection == 2:
-                    task['Completion Status'] = 'In Progress'
-                    print(f"Task {task_to_complete} is now set as in progress.")
-                    return
-                if selection == 3:
-                    task['Completion Status'] = 'Incomplete'
-                    print(f"Task {task_to_complete} is now set as incomplete.")
-                    return
-                else:
-                    print("Invalid option selected, please try again.") 
-        if not found_task:
-            print(f"Task {task_to_complete} not found.")
-            break
+        selection = int(input("Enter the number of your selection: "))
+        if selection == 1:
+            updated_name = input("Enter the new name of the task:")
+            task_to_update['name'] = updated_name
+            print(f"Task {task_to_update['name']} is now named {updated_name}.")
+            return
+        if selection == 2:
+            updated_due_date = validate_date()
+            task_to_update['due_date'] = updated_due_date
+            print(f"Task {task_to_update['name']}'s due date is now {updated_due_date}.")
+            return
+        if selection == 3:
+            task_to_update['Completion Status'] = 'Complete'
+            print(f"Task {task_to_update['name']} is now set as complete.")
+            return
+        if selection == 4:
+            task_to_update['Completion Status'] = 'In Progress'
+            print(f"Task {task_to_update['name']} is now set as in progress.")
+            return
+        if selection == 5:
+            task_to_update['Completion Status'] = 'Incomplete'
+            print(f"Task {task_to_update['name']} is now set as incomplete.")
+            return
+        else:
+            print("Invalid option selected, please try again.")
+    else:
+        print(f"Task {task_to_update} not found.")
+
+
 
 def main():
     options = {
     1: "Add Task",
     2: "Remove Task",
-    3: "Set Task Completion Status",
+    3: "Edit Task",
     4: "View Tasks",
     5: "Sort Tasks",
     6: "Load Tasks",
@@ -100,7 +123,7 @@ def main():
         elif selection == 2:
             remove_task()
         elif selection == 3:
-            update_task_completion()
+            update_task()
         elif selection == 4:
             view_tasks()
         else:
