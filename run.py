@@ -4,6 +4,14 @@ import os
 
 tasks = []
 
+def validate_name():
+    while True:
+        name = input("Enter the task name: ")
+        if name:
+            return name
+        else:
+            print("Task name cannot be empty.")
+
 def validate_date():
     """
     Validates a date input so it fits the format of a date
@@ -55,7 +63,7 @@ def add_task():
     print("Due Date: 02-11-2023")
     print("By default a new task will be marked as incomplete")
 
-    task_name = input("Enter Task Name:")
+    task_name = validate_name()
     due_date = validate_date()
     new_task = {'name': task_name, 'due_date': due_date, 'Completion Status': 'Incomplete'}
     tasks.append(new_task)
