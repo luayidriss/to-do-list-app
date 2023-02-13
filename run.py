@@ -1,4 +1,6 @@
 from datetime import datetime
+import csv
+import os
 
 tasks = []
 
@@ -13,6 +15,34 @@ def validate_date():
             return date
         except ValueError:
             print("Incorrect date format, should be dd-mm-yyyy")
+
+def validate_file():
+    """
+    Validates a file path and if its a csv file conforms to program standard
+    """
+    while True:
+        path = input("Enter the file path:")
+        try:
+            with open(path, 'r') as file:
+                reader = csv.reader(file)
+                header = next(reader)
+                if 'name' not in header and 'due_date' not in header and 'Completion Status' not in header:
+                    print("CSV file must have headers 'name', 'due_date', 'Completion Status'.")
+                    return
+                for row in reader:
+                    try:
+                        datetime.strptime(row[header.index('due_date')], '%d-%m-%Y')
+                    except ValueError:
+                        print(f"Incorrect date format in row {row}, should be dd-mm-yyyy")
+                        return
+                print("File is valid")
+                return path
+        except FileNotFoundError:
+            print("File not found.")
+            return
+        except csv.Error:
+            print("File is not a valid CSV file.")
+            return
 
 def add_task():
     """
@@ -29,7 +59,7 @@ def add_task():
     due_date = validate_date()
     new_task = {'name': task_name, 'due_date': due_date, 'Completion Status': 'Incomplete'}
     tasks.append(new_task)
-    print("Task Added")
+    print(f"Task {new_task['name']} has been adeed.")
 
 
 def find_task():
@@ -124,6 +154,7 @@ def sort_tasks():
         if selection == 1:
             sorted_tasks = sorted(tasks, key=lambda x: x['due_date'])
             tasks = sorted_tasks
+            print("Tasks sorted by Due Date.")
             return tasks
         elif selection == 2:
             sorted_tasks = sorted(tasks, key=lambda x: 
@@ -131,10 +162,61 @@ def sort_tasks():
                         x['Completion Status'] != "Incomplete", 
                         x['Completion Status'] != "Complete"))
             tasks = sorted_tasks
+            print("Tasks sorted by Completion Status.")
             return tasks
         else:
             print("Invalid option selected, please try again.")
-   
+
+def save_to_csv(tasks):
+    file_name = input("Enter the file name: ")
+    file_path = "/workspace/to-do-list-app/to_do_lists"
+    full_path = os.path.join(file_path, file_name)
+    
+    with open(full_path, 'w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=["name", "due_date", "Completion Status"])
+        writer.writeheader()
+        for task in tasks:
+            writer.writerow(task)
+    print(f"Tasks saved to {full_path}")
+
+def load_csv():
+    """
+    Users can load a csv file with the same format unto the program and edit it
+    """
+    options = {
+    1: "No",
+    2: "Yes"
+}
+    print("You can only load csv files that have been created in this program, or follow the same headings.")
+    print("Loading a csv file will initialize your current to do list,")
+    print("Do you wish to proceed?")
+    while True:
+        print("Please select an option:")
+        for key, value in options.items():
+            print(f"{key}: {value}")
+    
+        selection = int(input("Enter the number of your selection: "))
+    
+        if selection == 1:
+            break
+        elif selection == 2:
+            global tasks
+            file_path = validate_file()()
+            if isinstance(file_path, str):
+                tasks = []
+                with open(file_path, 'r') as csv_file:
+                    reader = csv.DictReader(csv_file)
+                    for row in reader:
+                        tasks.append(dict(row))
+                print("File is loaded.")
+                return tasks
+            else:
+                print("File was not loaded, make sure the file fits the criteria.")
+                return
+        else:
+            print("Invalid option selected, please try again.")
+    
+
 def main():
     options = {
     1: "Add Task",
@@ -164,7 +246,12 @@ def main():
             view_tasks()
         elif selection == 5:
             sort_tasks()
+        elif selection == 6:
+            load_csv()
+        elif selection == 7:
+            save_to_csv(tasks)
         else:
             print("Invalid option selected, please try again.")
 
+print("Welcome to the To Do List App")
 main()
