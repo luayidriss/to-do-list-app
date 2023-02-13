@@ -3,6 +3,9 @@ from datetime import datetime
 tasks = []
 
 def validate_date():
+    """
+    Validates a date input so it fits the format of a date
+    """
     while True:
         date = input("Enter Due Date:")
         try:
@@ -30,6 +33,9 @@ def add_task():
 
 
 def find_task():
+    """
+    finds a task by its name, to allow for removal or editing the task
+    """
     task_to_find = input("Enter the name of the task you want to find: ")
     for task in tasks:
         if task['name'] == task_to_find:
@@ -49,13 +55,16 @@ def remove_task():
         print(f"Task {task_to_remove} not found.")
         
 def view_tasks():
+    """
+    View all tasks as a to do list
+    """
     print("To Do:")
     for i, task in enumerate(tasks):
         print(f"{i + 1}. {task['name']} - Due Date: {task['due_date']} - Completion Status: {task['Completion Status']}")
 
 def update_task():
     """
-    The user can update the completion status of any task by searching for its name
+    The user can update the completion status of any task by searching for its name or edit its name and due date
     """
     options = {
     1: "Edit Name",
@@ -98,6 +107,9 @@ def update_task():
         print(f"Task {task_to_update} not found.")
 
 def sort_tasks():
+    """
+    Sorts your to do list by due date or by completion status
+    """
     options = {
     1: "Sort by Due Date",
     2: "Sort by Completion Status"
