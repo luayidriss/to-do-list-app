@@ -44,7 +44,7 @@ def remove_task():
     task_to_remove = find_task()
     if task_to_remove:
         tasks.remove(task_to_remove)
-        print(f"Task {task_to_remove} has been removed.")
+        print(f"Task {task_to_remove['name']} has been removed.")
     else:
         print(f"Task {task_to_remove} not found.")
         
@@ -97,8 +97,32 @@ def update_task():
     else:
         print(f"Task {task_to_update} not found.")
 
-
-
+def sort_tasks():
+    options = {
+    1: "Sort by Due Date",
+    2: "Sort by Completion Status"
+}
+    while True:
+        print("Please select an option:")
+        for key, value in options.items():
+            print(f"{key}: {value}")
+    
+        selection = int(input("Enter the number of your selection: "))
+        global tasks
+        if selection == 1:
+            sorted_tasks = sorted(tasks, key=lambda x: x['due_date'])
+            tasks = sorted_tasks
+            return tasks
+        elif selection == 2:
+            sorted_tasks = sorted(tasks, key=lambda x: 
+                       (x['Completion Status'] != "In Progress", 
+                        x['Completion Status'] != "Incomplete", 
+                        x['Completion Status'] != "Complete"))
+            tasks = sorted_tasks
+            return tasks
+        else:
+            print("Invalid option selected, please try again.")
+   
 def main():
     options = {
     1: "Add Task",
@@ -126,6 +150,8 @@ def main():
             update_task()
         elif selection == 4:
             view_tasks()
+        elif selection == 5:
+            sort_tasks()
         else:
             print("Invalid option selected, please try again.")
 
