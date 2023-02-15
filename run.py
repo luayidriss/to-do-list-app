@@ -11,22 +11,56 @@ TASK_VIEW_TEMPLATE = """
 WELCOME_MSG = """
 Welcome to the To Do List App. Please choose an option:
 
-    1: "Add Task"
-    2: "Remove Task"
-    3: "Edit Task"
-    4: "View Tasks"
-    5: "Sort Tasks"
-    6: "Load Tasks"
-    7: "Save Tasks"
-    8: "Exit To Do List"
+    1: Add Task
+    2: Remove Task
+    3: Edit Task
+    4: View Tasks
+    5: Sort Tasks
+    6: Load Tasks
+    7: Save Tasks
+    8: Exit To Do List
 """
+ADD_TASK_MSG = """
+Please enter your task name and its due date
+The due date should follow this format DD-MM-YYYY
+Example:
+Task Name: Fold Laundry
+Due Date: 02-11-2023
+By default a new task will be marked as incomplete
+"""
+
+UPDATE_TASK_MSG = """
+How would you like to edit your task?
+
+    1: Edit Name
+    2: Edit Due Date
+    3: Mark as Complete
+    4: Mark as In Progress
+    5: Mark as Incomplete
+    6: Return to Main Menu
+"""
+
+SORT_TASKS_MSG = """
+How would you like to sort your tasks?
+
+1: Sort by Due Date
+2: Sort by Completion Status
+3: Return to Main Menu
+"""
+
+LOAD_CSV_MSG = """
+Loading a csv file will initialize your current to do list,
+Do you wish to proceed?
+    1: No 
+    2: Yes
+    """
 
 FILE_PATH = "/workspace/to-do-list-app/to_do_lists"
 
 
 def validate_name():
     """
-    Makes sure no empty name is inputted for a task
+    Makes sure no empty name is inputted for a task.
     """
     while True:
         name = input("Enter the task name: ")
@@ -38,7 +72,7 @@ def validate_name():
 
 def validate_date():
     """
-    Validates a date input so it fits the format of a date
+    Validates a date input so it fits the format of a date.
     """
     while True:
         date = input("Enter Due Date:")
@@ -51,7 +85,7 @@ def validate_date():
 
 def validate_file():
     """
-    Validates a file path and if its a csv file conforms to program standard
+    Validates a file path and if its a csv file conforms to program standard.
     """
     while True:
         path = input("Enter the file path:")
@@ -91,15 +125,9 @@ def validate_file():
 def add_task():
     """
     The user inputs the task they want to add
-    it will add it to the to do list
+    it will add it to the to do list.
     """
-    print("Please enter your task name and its due date")
-    print("The due date should follow this format DD-MM-YYYY")
-    print("Example:")
-    print("Task Name: Fold Laundry")
-    print("Due Date: 02-11-2023")
-    print("By default a new task will be marked as incomplete")
-
+    print(ADD_TASK_MSG)
     task_name = validate_name()
     due_date = validate_date()
     new_task = {
@@ -136,7 +164,7 @@ def remove_task():
 
 def view_tasks():
     """
-    View all tasks as a to do list
+    View all tasks as a to do list.
     """
     print("To Do:")
     for i, task in enumerate(tasks):
@@ -146,62 +174,61 @@ def view_tasks():
 def update_task():
     """
     The user can update the completion status of any task by searching
-    for its name or edit its name and due date
+    for its name or edit its name and due date.
     """
-    options = {
-        1: "Edit Name",
-        2: "Edit Due Date",
-        3: "Mark as Complete",
-        4: "Mark as In Progress",
-        5: "Mark as Incomplete",
-    }
-
     task_to_update = find_task()
-    if task_to_update:
-        for key, value in options.items():
-            print(f"{key}: {value}")
-        selection = int(input("Enter the number of your selection: "))
-        if selection == 1:
-            updated_name = input("Enter the new name of the task:")
-            task_to_update["name"] = updated_name
-            print(f"Task {task_to_update['name']} is now named {updated_name}.")
-            return
-        if selection == 2:
-            updated_due_date = validate_date()
-            task_to_update["due_date"] = updated_due_date
-            print(
-                f"Task {task_to_update['name']}'s due date is now {updated_due_date}."
-            )
-            return
-        if selection == 3:
-            task_to_update["Completion Status"] = "Complete"
-            print(f"Task {task_to_update['name']} is now set as complete.")
-            return
-        if selection == 4:
-            task_to_update["Completion Status"] = "In Progress"
-            print(f"Task {task_to_update['name']} is now set as in progress.")
-            return
-        if selection == 5:
-            task_to_update["Completion Status"] = "Incomplete"
-            print(f"Task {task_to_update['name']} is now set as incomplete.")
-            return
-        else:
-            print("Invalid option selected, please try again.")
-    else:
+    if not task_to_update:
         print(f"Task {task_to_update} not found.")
+    else:
+        print(UPDATE_TASK_MSG)
+        while True:
+            try:
+                selection = int(input("Enter the number of your selection: "))
+            except ValueError:
+                print("Invalid option selected, please try again.")
+                continue
+            if selection == 1:
+                updated_name = input("Enter the new name of the task:")
+                task_to_update["name"] = updated_name
+                print(f"Task {task_to_update['name']} is now named {updated_name}.")
+                return
+            if selection == 2:
+                updated_due_date = validate_date()
+                task_to_update["due_date"] = updated_due_date
+                print(
+                    f"Task {task_to_update['name']}'s due date is now {updated_due_date}."
+                )
+                return
+            if selection == 3:
+                task_to_update["Completion Status"] = "Complete"
+                print(f"Task {task_to_update['name']} is now set as complete.")
+                return
+            if selection == 4:
+                task_to_update["Completion Status"] = "In Progress"
+                print(f"Task {task_to_update['name']} is now set as in progress.")
+                return
+            if selection == 5:
+                task_to_update["Completion Status"] = "Incomplete"
+                print(f"Task {task_to_update['name']} is now set as incomplete.")
+                return
+            if selection == 6:
+                main()
+            else:
+                print("Invalid option selected, please try again.")
+
 
 
 def sort_tasks():
     """
-    Sorts your to do list by due date or by completion status
+    Sorts your to do list by due date or by completion status.
     """
-    options = {1: "Sort by Due Date", 2: "Sort by Completion Status"}
     while True:
-        print("Please select an option:")
-        for key, value in options.items():
-            print(f"{key}: {value}")
-
-        selection = int(input("Enter the number of your selection: "))
+        print(SORT_TASKS_MSG)
+        try:
+            selection = int(input("Enter the number of your selection: "))
+        except ValueError:
+            print("Invalid option selected, please try again.")
+            continue
         global tasks
         if selection == 1:
             sorted_tasks = sorted(tasks, key=lambda x: x["due_date"])
@@ -221,19 +248,15 @@ def sort_tasks():
             print("Tasks sorted by Completion Status.")
             return tasks
             view_tasks()
+        elif selection == 3:
+            main()
         else:
             print("Invalid option selected, please try again.")
 
 
-def save_to_csv(tasks):
+def save_to_csv():
     """
     Saves the current list to a csv file.
-
-    Args:
-        tasks (list[dict]): The list of tasks.
-
-    Returns:
-        Returns something
     """
     file_name = input("Enter the file name: ")
     file_path = "/workspace/to-do-list-app/to_do_lists"
@@ -251,19 +274,16 @@ def save_to_csv(tasks):
 
 def load_csv():
     """
-    Users can load a csv file with the same format unto the program and edit it
+    Users can load a csv file with the same format unto the program and edit it.
     """
-    options = {1: "No", 2: "Yes"}
-    print(
-        "You can only load csv files that have been created in this program, or follow the same headings."
-    )
-    print("Loading a csv file will initialize your current to do list,")
-    print("Do you wish to proceed?")
     while True:
-        print("Please select an option:")
-        for key, value in options.items():
-            print(f"{key}: {value}")
-        selection = int(input("Enter the number of your selection: "))
+        print(LOAD_CSV_MSG)
+        try:
+            selection = int(input("Enter the number of your selection: "))
+        except ValueError:
+            print("Invalid option selected, please try again.")
+            continue
+
         if selection == 1:
             break
         elif selection == 2:
@@ -289,25 +309,10 @@ def load_csv():
 
 def main():
     """
-    Main Menu
+    Main Menu.
     """
-    print("Welcome to the To Do List App")
-    options = {
-        1: "Add Task",
-        2: "Remove Task",
-        3: "Edit Task",
-        4: "View Tasks",
-        5: "Sort Tasks",
-        6: "Load Tasks",
-        7: "Save Tasks",
-        8: "Exit To Do List",
-    }
-
     while True:
-        # print("Please select an option:")
         print(WELCOME_MSG)
-        # for key, value in options.items():
-        #     print(f"{key}: {value}")
         selection = None
         try:
             selection = int(input("Enter the number of your selection: "))
@@ -328,7 +333,9 @@ def main():
         elif selection == 6:
             load_csv()
         elif selection == 7:
-            save_to_csv(tasks)
+            save_to_csv()
+        elif selection == 8:
+            exit()
         else:
             print("Invalid option selected, please try again.")
 
