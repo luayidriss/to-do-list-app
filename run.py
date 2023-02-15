@@ -1,3 +1,6 @@
+"""
+Import Libraries
+"""
 import csv
 import os
 from datetime import datetime
@@ -83,47 +86,6 @@ def validate_date():
             print("Incorrect date format, should be dd-mm-yyyy")
 
 
-def validate_file():
-    """
-    Validates a file path and if its a csv file conforms to program standard.
-    """
-    while True:
-        path = input("Enter the file path:")
-        try:
-            with open(path, "r") as file:
-                reader = csv.reader(file)
-                header = next(reader)
-                if (
-                    "name" not in header
-                    and "due_date" not in header
-                    and "Completion Status" not in header
-                ):
-                    print(
-                        "CSV file must have headers 'name', 'due_date',\
-                            'Completion Status'."
-                    )
-                    return
-                for row in reader:
-                    try:
-                        datetime.strptime(
-                            row[header.index("due_date")], "%d-%m-%Y"
-                        )
-                    except ValueError:
-                        print(
-                            f"Incorrect date format in row {row}, should be \
-                            dd-mm-yyyy"
-                        )
-                        return
-                print("File is valid")
-                return path
-        except FileNotFoundError:
-            print("File not found.")
-            return
-        except csv.Error:
-            print("File is not a valid CSV file.")
-            return
-
-
 def add_task():
     """
     The user inputs the task they want to add
@@ -192,15 +154,13 @@ def update_task():
             if selection == 1:
                 updated_name = input("Enter the new name of the task:")
                 task_to_update["name"] = updated_name
-                print(f"Task {task_to_update['name']} is now named \
-                {updated_name}.")
+                print(f"Task {task_to_update['name']} is now named {updated_name}.")
                 return
             if selection == 2:
                 updated_due_date = validate_date()
                 task_to_update["due_date"] = updated_due_date
                 print(
-                    f"Task {task_to_update['name']}'s due date is now \
-                    {updated_due_date}."
+                    f"Task {task_to_update['name']}'s due date is now {updated_due_date}."
                 )
                 return
             if selection == 3:
@@ -209,13 +169,11 @@ def update_task():
                 return
             if selection == 4:
                 task_to_update["Completion Status"] = "In Progress"
-                print(f"Task {task_to_update['name']} is now set as in \
-                progress.")
+                print(f"Task {task_to_update['name']} is now set as in progress.")
                 return
             if selection == 5:
                 task_to_update["Completion Status"] = "Incomplete"
-                print(f"Task {task_to_update['name']} is now set as \
-                 incomplete.")
+                print(f"Task {task_to_update['name']} is now set as incomplete.")
                 return
             if selection == 6:
                 main()
@@ -252,7 +210,6 @@ def sort_tasks():
             tasks = sorted_tasks
             print("Tasks sorted by Completion Status.")
             return tasks
-            view_tasks()
         elif selection == 3:
             main()
         else:
@@ -265,13 +222,13 @@ def save_to_csv():
     """
     file_name = input("Enter the file name: ")
     full_path = os.path.join(FILE_PATH, file_name)
-    with open(full_path, "w", newline="") as file:
+    with open(full_path, "w", newline="", encoding="utf8") as file:
         writer = csv.DictWriter(
             file, fieldnames=["name", "due_date", "Completion Status"]
         )
         writer.writeheader()
         writer.writerows(tasks)
-    print(f"Tasks saved!")
+    print("Tasks saved!")
 
 
 def load_csv():
@@ -294,7 +251,7 @@ def load_csv():
             file_name = input("Enter the file name: ")
             full_path = os.path.join(FILE_PATH, file_name)
             if isinstance(full_path, str):
-                with open(full_path, "r") as csv_file:
+                with open(full_path, "r", encoding="utf8") as csv_file:
                     reader = csv.DictReader(csv_file)
                     tasks = list(reader)
     
@@ -302,7 +259,7 @@ def load_csv():
                 return tasks
             else:
                 print(
-                    "File not found"
+                    "File not found."
                 )
         else:
             print("Invalid option selected, please try again.")
