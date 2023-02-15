@@ -51,7 +51,7 @@ How would you like to sort your tasks?
 LOAD_CSV_MSG = """
 Loading a csv file will initialize your current to do list,
 Do you wish to proceed?
-    1: No 
+    1: No
     2: Yes
     """
 
@@ -99,7 +99,8 @@ def validate_file():
                     and "Completion Status" not in header
                 ):
                     print(
-                        "CSV file must have headers 'name', 'due_date', 'Completion Status'."
+                        "CSV file must have headers 'name', 'due_date',\
+                            'Completion Status'."
                     )
                     return
                 for row in reader:
@@ -109,7 +110,8 @@ def validate_file():
                         )
                     except ValueError:
                         print(
-                            f"Incorrect date format in row {row}, should be dd-mm-yyyy"
+                            f"Incorrect date format in row {row}, should be \
+                            dd-mm-yyyy"
                         )
                         return
                 print("File is valid")
@@ -190,13 +192,15 @@ def update_task():
             if selection == 1:
                 updated_name = input("Enter the new name of the task:")
                 task_to_update["name"] = updated_name
-                print(f"Task {task_to_update['name']} is now named {updated_name}.")
+                print(f"Task {task_to_update['name']} is now named \
+                {updated_name}.")
                 return
             if selection == 2:
                 updated_due_date = validate_date()
                 task_to_update["due_date"] = updated_due_date
                 print(
-                    f"Task {task_to_update['name']}'s due date is now {updated_due_date}."
+                    f"Task {task_to_update['name']}'s due date is now \
+                    {updated_due_date}."
                 )
                 return
             if selection == 3:
@@ -205,17 +209,18 @@ def update_task():
                 return
             if selection == 4:
                 task_to_update["Completion Status"] = "In Progress"
-                print(f"Task {task_to_update['name']} is now set as in progress.")
+                print(f"Task {task_to_update['name']} is now set as in \
+                progress.")
                 return
             if selection == 5:
                 task_to_update["Completion Status"] = "Incomplete"
-                print(f"Task {task_to_update['name']} is now set as incomplete.")
+                print(f"Task {task_to_update['name']} is now set as \
+                 incomplete.")
                 return
             if selection == 6:
                 main()
             else:
                 print("Invalid option selected, please try again.")
-
 
 
 def sort_tasks():
@@ -259,22 +264,20 @@ def save_to_csv():
     Saves the current list to a csv file.
     """
     file_name = input("Enter the file name: ")
-    file_path = "/workspace/to-do-list-app/to_do_lists"
-    full_path = os.path.join(file_path, file_name)
+    full_path = os.path.join(FILE_PATH, file_name)
     with open(full_path, "w", newline="") as file:
         writer = csv.DictWriter(
             file, fieldnames=["name", "due_date", "Completion Status"]
         )
         writer.writeheader()
         writer.writerows(tasks)
-        # for task in tasks:
-        #     writer.writerow(task)
-    print(f"Tasks saved to {full_path}")
+    print(f"Tasks saved!")
 
 
 def load_csv():
     """
-    Users can load a csv file with the same format unto the program and edit it.
+    Users can load a csv file with the same format
+    unto the program and edit it.
     """
     while True:
         print(LOAD_CSV_MSG)
@@ -285,24 +288,22 @@ def load_csv():
             continue
 
         if selection == 1:
-            break
+            main()
         elif selection == 2:
             global tasks
-            file_path = validate_file()
-            if isinstance(file_path, str):
-                # tasks = []
-                with open(file_path, "r") as csv_file:
+            file_name = input("Enter the file name: ")
+            full_path = os.path.join(FILE_PATH, file_name)
+            if isinstance(full_path, str):
+                with open(full_path, "r") as csv_file:
                     reader = csv.DictReader(csv_file)
                     tasks = list(reader)
-                    # for row in reader:
-                    #     tasks.append(dict(row))
+    
                 print("File is loaded.")
                 return tasks
             else:
                 print(
-                    "File was not loaded, make sure the file fits the criteria."
+                    "File not found"
                 )
-                return
         else:
             print("Invalid option selected, please try again.")
 
