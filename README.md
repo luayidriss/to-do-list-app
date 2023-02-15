@@ -1,31 +1,71 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# To Do List App
+The To Do List App has a title that speaks for itself. It is a application that helps you create, edit and sort through a to do list.
 
-Welcome luayidriss,
+![Responsice Mockup](https://github.com/lucyrush/readme-template/blob/master/media/love_running_mockup.png)
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+## Features 
 
-## Reminders
+The app lets you add new tasks, remove previous tasks, edit task's parameters (name, due date and completion status). It also allows you to save your to do list, and load other to do lists.
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+### How to Use
 
-## Creating the Heroku app
+- __Main Menu__
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+  - You have a choice between different options to manipulate your to do list.
 
-1. `heroku/python`
-2. `heroku/nodejs`
+![Landing Page](https://github.com/lucyrush/readme-template/blob/master/media/love_running_landing.png)
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+- __Adding a Task__
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+  - Provide a Task Name and a Due Date. 
 
-Connect your GitHub repository and deploy as normal.
+![Club Ethos](https://github.com/lucyrush/readme-template/blob/master/media/love_running_ethos.png)
 
-## Constraints
+- __Editing a Task__
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+  - All tasks are automatically added as incomplete, here you can change their status of completion. You can also edit their name and due date.
 
------
-Happy coding!
+![Meetup Times](https://github.com/lucyrush/readme-template/blob/master/media/love_running_times.png)
+
+- __Sort To Do List__ 
+
+  - You can sort your to do list by due date (from closest to the latest due date), as well as by status of completion (in progress, then incomplete, and completed tasks at the end).
+
+- __Save and Load__
+
+  - Saves and Loads your to do lists unto the application.
+
+![Gallery](https://github.com/lucyrush/readme-template/blob/master/media/love_running_gallery.png)
+
+### Features Left to Implement
+
+- Another feature idea is to be able to save and load files to a google cloud storage space.
+
+## Testing 
+
+I have manually tested the application by doing the following
+
+  - Passed the code through PEP8 linter
+  - Given Invalid Inputs: strings when numbers are expected, invalid dates, empty task names
+  - Tested in Local Terminal and Heroku
+
+- __Unfixed Bugs__
+
+When deployed to Heroku, the save and load features do not work since Heroku does not recognize the local directories in the workspace of this project. A future feature as outlined above is to use Google Cloud Storage API to store our data elsewhere so it can be accessed even on Heroku.
+
+- __Validator Testing__
+PEP8:
+  - Only errors returned were too long lines of code, which could not be avoided as they are print statments.
+  -
+## Deployment
+
+- The site was deployed to Heroku. The steps to deploy are as follows: 
+  - Create a new Heroku App
+  - Set the building blocks to python and node.js in that order
+  - Link the Heroku App to the repositery
+  - Click on Deploy
+
+## Credits 
+
+Code Institute for the deployment terminal and all templates and knowledge
+My Mentor for his ongoing support
