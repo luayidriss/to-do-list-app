@@ -1,7 +1,7 @@
 # To Do List App
 The To Do List App has a title that speaks for itself. It is a application that helps you create, edit and sort through a to do list.
 
-![Responsice Mockup](https://github.com/lucyrush/readme-template/blob/master/media/love_running_mockup.png)
+![Mockup](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/app.png)
 
 ## Features 
 
@@ -13,29 +13,29 @@ The app lets you add new tasks, remove previous tasks, edit task's parameters (n
 
   - You have a choice between different options to manipulate your to do list.
 
-![Landing Page](https://github.com/lucyrush/readme-template/blob/master/media/love_running_landing.png)
+![Main Menu](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/main_menu.png)
 
 - __Adding a Task__
 
   - Provide a Task Name and a Due Date. 
 
-![Club Ethos](https://github.com/lucyrush/readme-template/blob/master/media/love_running_ethos.png)
+![Add Task](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/add_task.png)
 
 - __Editing a Task__
 
   - All tasks are automatically added as incomplete, here you can change their status of completion. You can also edit their name and due date.
 
-![Meetup Times](https://github.com/lucyrush/readme-template/blob/master/media/love_running_times.png)
+![Edit Tasks](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/edit_task.png)
 
 - __Sort To Do List__ 
 
   - You can sort your to do list by due date (from closest to the latest due date), as well as by status of completion (in progress, then incomplete, and completed tasks at the end).
 
+![Sort Tasks](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/sort.png)
+
 - __Save and Load__
 
   - Saves and Loads your to do lists unto the application.
-
-![Gallery](https://github.com/lucyrush/readme-template/blob/master/media/love_running_gallery.png)
 
 ### Features Left to Implement
 
