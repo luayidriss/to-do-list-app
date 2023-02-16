@@ -2,7 +2,6 @@
 The To Do List App has a title that speaks for itself. It is a application that helps you create, edit and sort through a to do list.
 
 ![Mockup](https://github.com/luayidriss/to-do-list-app/blob/72406f10aae9f84ea0372029352f017e7c913f19/media/app.png)
-
 ## Features 
 
 The app lets you add new tasks, remove previous tasks, edit task's parameters (name, due date and completion status). It also allows you to save your to do list, and load other to do lists.
