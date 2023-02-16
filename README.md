@@ -66,5 +66,4 @@ PEP8:
 
 ## Credits 
 
-Code Institute for the deployment terminal and all templates and knowledge
-My Mentor for his ongoing support
+Code Institute for the deployment terminal and all templates and knowledge and my Mentor for his ongoing support.
